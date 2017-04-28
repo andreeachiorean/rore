@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.roadreports.roadreports">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".RoadReportsApplication"
         android:allowBackup="true" android:icon="@mipmap/ic_launcher"

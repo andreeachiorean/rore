@@ -9,8 +9,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.roadreports.roadreports.backend.realm.RealmController;
+import com.roadreports.roadreports.backend.realm.dao.RealmCityDao;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,20 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+
+
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        RealmController.with(this).setRealmData();
+        RealmResults<RealmCityDao>results =  RealmController.with(this).getCities();
+        int x = 0;
     }
 
     @Override
