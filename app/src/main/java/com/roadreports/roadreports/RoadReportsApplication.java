@@ -1,8 +1,10 @@
 package com.roadreports.roadreports;
 
 import android.app.Application;
+import android.os.Environment;
 import android.util.Base64;
 
+import com.facebook.stetho.Stetho;
 import com.roadreports.roadreports.backend.realm.RealmPublicMigration;
 import com.roadreports.roadreports.backend.realm.modules.PublicDataModule;
 
@@ -22,7 +24,7 @@ public class RoadReportsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Stetho.initializeWithDefaults(this);
 
        /* String keyString = SharedPrefUtil.readPreferences(this, SharedPrefUtil.KEY_ENCRYPTION, null);
         byte[] key = new byte[64];
@@ -39,6 +41,7 @@ public class RoadReportsApplication extends Application {
 
         Realm.init(this);
         realmDefaultConfiguration = new RealmConfiguration.Builder()
+                .directory(Environment.getExternalStorageDirectory())
                // .encryptionKey(key)
                 .name("RoRe.realm") //AppConfig.APP_NAME
                 .schemaVersion(RealmPublicMigration.SCHEMA_VERSION)

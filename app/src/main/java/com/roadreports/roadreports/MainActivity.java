@@ -9,8 +9,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.stetho.Stetho;
 import com.roadreports.roadreports.backend.realm.RealmController;
 import com.roadreports.roadreports.backend.realm.dao.RealmCityDao;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
+
+import java.util.regex.Pattern;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -37,7 +41,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        RealmController.with(this).setRealmData();
+        RealmResults<RealmCityDao>results =  RealmController.with(this).getCities();
+        int x = 0;
 
+
+        RealmInspectorModulesProvider provider = RealmInspectorModulesProvider.builder(this)
+                .withFolder(getCacheDir())
+                //.withEncryptionKey("encrypted.realm", key)
+                .withMetaTables()
+                .withDescendingOrder()
+                .withLimit(1000)
+                .databaseNamePattern(Pattern.compile(".+\\.realm"))
+                .build();
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(provider) //(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
 
     }
 
@@ -46,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onResume();
 
-        RealmController.with(this).setRealmData();
-        RealmResults<RealmCityDao>results =  RealmController.with(this).getCities();
-        int x = 0;
+
     }
 
     @Override

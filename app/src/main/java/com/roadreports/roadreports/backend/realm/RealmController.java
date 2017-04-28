@@ -3,6 +3,7 @@ package com.roadreports.roadreports.backend.realm;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Fragment;
+import android.os.Environment;
 
 import com.roadreports.roadreports.RoadReportsApplication;
 import com.roadreports.roadreports.backend.realm.dao.RealmCityDao;
@@ -23,8 +24,11 @@ public class RealmController {
     private final Realm realm;
 
     public RealmController(Application application) {
+        //Realm realm = Realm.getInstance(Environment.getExternalStorageDirectory());
         //realm = Realm.getDefaultInstance();
         realm = Realm.getInstance(((RoadReportsApplication)application).getRealmDefaultConfiguration());
+        String path = realm.getPath();
+        int x =0;
     }
 
     public static RealmController with(Fragment fragment) {
